@@ -25,3 +25,7 @@ find /var/www/html -name "*.php -o *.js" -type f -exec grep -H "Member" {} \;
 
 ## CentOS Find檔名 + Remove
 find . -name "*.DS_Store" -exec rm {} \;
+
+## Git 指定取得不同分支的檔案
+git checkout [branch] -- [filepath]  
+example: git checkout dev -- js/myplugin.js
