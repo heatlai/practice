@@ -59,14 +59,14 @@ function hello($name = 'Simon', $words = ['Hi'])
 echo hello('Tom',['Hola','Hello','Good Morning','God damn']);
 
 //array 陣列
-$array1 = 
-[
-    'id1' => 1,
-    'name1' => 'Tom',
-    'id2' => 2,
-    'name2' => 'Simon'
-];
-    
+$array1 =
+    [
+        'id1' => 1,
+        'name1' => 'Tom',
+        'id2' => 2,
+        'name2' => 'Simon'
+    ];
+
 $array2 = array(
     'id1' => 1,
     'name1' => 'Tom',
@@ -86,7 +86,7 @@ foreach ($test as $value) {
 }
 echo "<br>";
 //foreach 陣列迴圈 三種印出方式
-foreach ($test as $index => $value) 
+foreach ($test as $index => $value)
 {
     echo '<pre>';
     echo "index 第".($index+1)."個陣列"."<br>";
@@ -103,7 +103,7 @@ foreach ($information as $key => $value)
     if($value[1] == "0")
     {
         unset($information[$key]);
-    }     
+    }
 }
 //排序測試 一維陣列
 $rand_count=100;
@@ -139,7 +139,7 @@ $c = ($a==$b) ? ("yes") : ("no");
  * 所以在function add()裡面對$a做事等於對$x做事
  */
 function add(&$a, $b) {
-   $a += $b;
+    $a += $b;
 }
 
 $x = 1;
@@ -149,7 +149,7 @@ add($x, $y);
 echo "x = {$x}<br>y = {$y}";
 
 /**
- * array_map 
+ * array_map
  * 把陣列的每個值丟進function裡跑
  * 再把return存回原本的位置
  * Array(
@@ -158,8 +158,8 @@ echo "x = {$x}<br>y = {$y}";
  * )
  */
 function add(&$a, $b) {
-   $a = $a.$b;
-   return $a;
+    $a = $a.$b;
+    return $a;
 }
 
 $a1=array("Dog","Cat");
