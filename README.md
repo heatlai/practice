@@ -29,3 +29,6 @@ find . -name "*.DS_Store" -exec rm {} \;
 ## Git 指定取得不同分支的檔案
 git checkout [branch] -- [filepath]  
 example: git checkout dev -- js/myplugin.js
+
+## CentOS 清除文字檔案
+cat /dev/null > [logFileName]
