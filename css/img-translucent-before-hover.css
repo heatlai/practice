@@ -1,0 +1,6 @@
+img {
+    opacity: 0.5; /* 透明度設為 0.5 */
+}
+img:hover {
+    opacity: 1.0; /* 設為完全不透明 */
+}

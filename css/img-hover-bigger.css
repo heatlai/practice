@@ -1,0 +1,6 @@
+img {
+    transition: all .2s ease-in-out;
+}
+img:hover {
+    transform: scale(1.2); /* 變大的比率 */
+}
