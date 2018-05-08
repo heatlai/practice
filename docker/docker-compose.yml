@@ -1,0 +1,81 @@
+version: "3"
+
+networks:
+  frontend:
+# 設定backend子網路
+  backend:
+    ipam:
+      driver: default
+      config:
+        - subnet: ${BACKEND_SUBNET}
+
+services:
+
+# php
+  php:
+    container_name: php
+    networks:
+      - backend
+#    image: php:7.1-fpm
+    build: ./php/
+    expose:
+      - 9000
+    volumes:
+      - ./php/php-fpm.d:/usr/local/etc/php-fpm.d
+      - ./../:/var/www/html/
+    tty: true
+
+# nginx
+  nginx:
+    container_name: nginx
+    networks:
+      backend:
+        ipv4_address: ${NGINX_IP}
+      frontend:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/ssl:/etc/ssl
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./log/nginx:/var/log/nginx
+      - ./../:/var/www/html/
+
+# mariadb
+  mariadb:
+    container_name: mariadb
+    networks:
+      - backend
+    image: mariadb:10.2
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: hypenode
+      MYSQL_USER: test
+      MYSQL_PASSWORD: admin
+    command: mysqld --max_allowed_packet=1024M
+    volumes:
+      - ./mariadb/data:/var/lib/mysql
+
+# phpmyadmin
+  phpmyadmin:
+    container_name: phpmyadmin
+    networks:
+      - frontend
+      - backend
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mariadb
+
+# redis
+  redis:
+    container_name: redis
+    networks:
+      - backend
+    image: redis:3.2
+    ports:
+      - "6379:6379"

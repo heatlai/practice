@@ -1,0 +1,97 @@
+version: "3"
+
+networks:
+#  frontend:
+# 設定backend子網路
+  backend:
+    ipam:
+      driver: default
+      config:
+        - subnet:  ${REDIS_SUBNET}
+
+services:
+# redis
+  redis_1:
+    container_name: redis_1
+    networks:
+#      - backend
+      backend:
+        ipv4_address: ${REDIS_IP_1}
+    build: ./redis-cluster/
+    ports:
+      - "7001:6379"
+    volumes:
+      - ./redis-cluster/data/7001:/data
+      - ./redis-cluster/log/7001:/var/log/redis
+    environment:
+      - REDIS_PORT=7001
+
+  redis_2:
+    container_name: redis_2
+    networks:
+      backend:
+        ipv4_address: ${REDIS_IP_2}
+    build: ./redis-cluster/
+    ports:
+      - "7002:6379"
+    volumes:
+      - ./redis-cluster/data/7002:/data
+      - ./redis-cluster/log/7002:/var/log/redis
+    environment:
+      - REDIS_PORT=7002
+
+  redis_3:
+    container_name: redis_3
+    networks:
+      backend:
+        ipv4_address: ${REDIS_IP_3}
+    build: ./redis-cluster/
+    ports:
+      - "7003:6379"
+    volumes:
+      - ./redis-cluster/data/7003:/data
+      - ./redis-cluster/log/7003:/var/log/redis
+    environment:
+      - REDIS_PORT=7003
+
+  redis_4:
+    container_name: redis_4
+    networks:
+      backend:
+        ipv4_address: ${REDIS_IP_4}
+    build: ./redis-cluster/
+    ports:
+      - "7004:6379"
+    volumes:
+      - ./redis-cluster/data/7004:/data
+      - ./redis-cluster/log/7004:/var/log/redis
+    environment:
+      - REDIS_PORT=7004
+
+  redis_5:
+    container_name: redis_5
+    networks:
+      backend:
+        ipv4_address: ${REDIS_IP_5}
+    build: ./redis-cluster/
+    ports:
+      - "7005:6379"
+    volumes:
+      - ./redis-cluster/data/7005:/data
+      - ./redis-cluster/log/7005:/var/log/redis
+    environment:
+      - REDIS_PORT=7005
+
+  redis_6:
+    container_name: redis_6
+    networks:
+      backend:
+        ipv4_address: ${REDIS_IP_6}
+    build: ./redis-cluster/
+    ports:
+      - "7006:6379"
+    volumes:
+      - ./redis-cluster/data/7006:/data
+      - ./redis-cluster/log/7006:/var/log/redis
+    environment:
+      - REDIS_PORT=7006

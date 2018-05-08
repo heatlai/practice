@@ -1,0 +1,9 @@
+.idea
+
+redis/data
+redis-cluster/data
+mariadb/data
+mysql/data
+
+log
+*.log
