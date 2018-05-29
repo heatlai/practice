@@ -29,7 +29,7 @@ class Datastore
         # Instantiates a client
         static::$_datastore = new DatastoreClient([
             'projectId' => static::$_projectId ?? 'GCP_PROJECT_NAME_OR_ID',
-            'namespaceId' => static::$_namespaceId ?? 'heatlai.hypenode.tw',
+            'namespaceId' => static::$_namespaceId ?? 'heat.hypenode.tw',
             'keyFilePath' => __DIR__ . '/Config/Google/' . (static::$_datastoreKey ?? 'project_key.json'),
         ]);
 
