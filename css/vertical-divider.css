@@ -1,15 +1,15 @@
-.top-bar {
+.toolbar {
     background-color: #32404F;
     height: 45px;
     line-height : 45px;
 }
 
-.vertical-partition-line {
+.vertical-divider {
     position: relative;
     margin-left: 10px;
 }
 
-.vertical-partition-line:before {
+.vertical-divider:before {
     content: '';
     display: block;
     height: 18px;
