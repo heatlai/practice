@@ -1,21 +1,27 @@
-.toolbar {
+.navbar {
     background-color: #32404F;
     height: 45px;
     line-height : 45px;
 }
 
+/*
+    <a href="#">Link1</a>
+    <span class="vertical-divider"></span>
+    <a href="#">Link2</a>
+*/
 .vertical-divider {
     position: relative;
     margin-left: 10px;
+    margin-right: 10px;
 }
 
 .vertical-divider:before {
     content: '';
     display: block;
     height: 18px;
-    left: -5px;
+    left: 0;
     position: absolute;
-    top: 4px;
+    top: 0;
     width: 1px;
     background: rgba(255, 255, 255, 0.3);
 }

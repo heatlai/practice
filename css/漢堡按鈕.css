@@ -1,0 +1,79 @@
+/*
+漢堡鈕 button 固定
+
+<button class="hamburger-button">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+</button>
+
+*/
+.hamburger-button {
+    background: none;
+    border: none;
+    display: inline-block;
+    padding-top: 6px;
+    margin-right: 14px;
+    margin-left: 8px;
+}
+
+.hamburger-button .icon-bar {
+    margin: 0 auto 4px;
+    background-color: #FFFFFF;
+    display: block;
+    width: 16px;
+    height: 1px;
+    border-radius: 1px;
+}
+
+/*
+漢堡鈕 div 動畫
+
+<div class="hamburger-icon">
+    <span></span>
+</div>
+
+*/
+.hamburger-icon {
+    cursor: pointer;
+    width: 16px;
+    margin-right: 14px;
+    display: inline-block;
+}
+
+.hamburger-icon:after,
+.hamburger-icon:before,
+.hamburger-icon span {
+    background-color: #fff;
+    -o-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    content: '';
+    display: block;
+    height: 1px;
+    margin: 4px 0;
+    -moz-transition: all .2s ease-in-out;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+/* translateY = height + margin-top */
+.hamburger-icon.open:before {
+    transform: translateY(5px) rotate(135deg);
+    -moz-transform: translateY(5px) rotate(135deg);
+    -webkit-transform: translateY(5px) rotate(135deg);
+}
+
+.hamburger-icon.open:after {
+    transform: translateY(-5px) rotate(-135deg);
+    -moz-transform: translateY(-5px) rotate(-135deg);
+    -webkit-transform: translateY(-5px) rotate(-135deg);
+}
+
+.hamburger-icon.open span {
+    -moz-transform: scale(0);
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
