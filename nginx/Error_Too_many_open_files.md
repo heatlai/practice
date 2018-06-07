@@ -1,30 +1,79 @@
-Nginx 出現 500 Error, 錯誤訊息只能從 Log 查到, 有遇到下述兩種狀況:
+# Nginx "Too many open files" 修復錯誤訊息
+
+Nginx 出現 500 Error, 錯誤訊息只能從 Log 查到, 有遇到下述兩種狀況:  
 
 socket() failed (24: Too many open files) while connecting to upstream
 512 worker_connections are not enough while connecting to upstream
 
-Nginx "Too many open files" 修復錯誤訊息
-2011/05/01 23:00:49 [alert] 7387#0: *6259768 socket() failed (24: Too many open files) while connecting to upstream, client: 123.123.123.123, server: www.example.com, request: "GET [[/]] HTTP/1.1", upstream: "fastcgi://127.0.0.1:1234", host: "www.example.com"
+2011/05/01 23:00:49 [alert] 7387#0: *6259768 socket() failed (24: Too many open files)
+while connecting to upstream, client: 123.123.123.123, server: www.example.com,
+request: "GET [[/]] HTTP/1.1", upstream: "fastcgi://127.0.0.1:1234", host: "www.example.com"
 
-解法
-$ sudo -i
-$ ulimit -n # 看目前系統設定的限制 (ulimit -a # 可查看全部參數)
+```
+# 切 root 權限
+sudo -i
+
+# 看目前系統設定的限制 (ulimit -a # 可查看全部參數)
+ulimit -n 
 1024
 
-vim /etc/security/limits.conf # 由此檔案設定 nofile (nofile - max number of open files) 的大小
-# 增加/修改 下述兩行
-* soft nofile 655360
-* hard nofile 655360
+# 由 limits.conf 設定 nofile (nofile - max number of open files) 的大小
+vim /etc/security/limits.conf 
 
-ulimit -n # 登出後, 在登入, 執行就會出現此值
-655360
+# 增加/修改 下述兩行 ( 2^20 = 1048576 )
+* soft nofile 1048576
+* hard nofile 1048576
 
-4. 若 ulimit -n 沒出現 655360 的話, 可使用 ulimit -n 655360 # 強制設定
+或用 - 代替 soft+hard
 
-5. 再用 ulimit -n 或 ulimit -Sn (驗證軟式設定)、ulimit -Hn (驗證硬式設定) 檢查看看(或 ulimit -a).
+* - nofile 1048576
 
-從系統面另外計算 + 設定
-lsof | wc -l # 計算開啟檔案數量
-sudo vim /etc/sysctl.conf
-fs.file-max = 3268890
-sudo sysctl -p
+# 登出後, 在登入, 執行就會出現此值
+ulimit -n 
+1048576
+```
+
+若 ulimit -n 沒出現 1048576 的話, 可使用強制設定
+```
+ulimit -n 1048576
+
+# 再檢查設定
+ulimit -n
+1048576
+```
+
+或 切換 nginx 檢查
+
+```
+su - nginx
+
+ulimit -n
+1048576
+```
+
+## PAM 模組設定 (非必要)
+```
+# 設定登入自動套用limits.conf
+vim /etc/pam.d/login
+
+session    required   pam_limits.so
+```
+
+
+## 系統設定  
+
+```
+vim /etc/sysctl.conf
+
+# 2^21 = 2097152
+fs.file-max = 2097152
+
+# 套用設定
+sysctl -p
+```
+
+## 計算開啟檔案數量
+```
+lsof | wc -l 
+```  
+
