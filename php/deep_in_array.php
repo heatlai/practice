@@ -1,25 +1,25 @@
 <?php
 
 //檢查多維陣列內數值是否存在
-function deep_in_array($value, $input_array)
+function deepInArray( $value, $targetArray )
 {
-    foreach ($input_array as $in_value)
+    foreach ( $targetArray as $arrayValue )
     {
-        if(!is_array($in_value))
+        if ( ! is_array( $arrayValue ) )
         {
-            if ($value == $in_value)
+            if ( $value == $arrayValue )
             {
-                return TRUE;
+                return true;
             }
         }
         else
         {
-            if(deep_in_array($value, $in_value))
+            if ( deepInArray( $value, $arrayValue ) )
             {
-                return TRUE;
+                return true;
             }
         }
     }
 
-    return FALSE;
+    return false;
 }
