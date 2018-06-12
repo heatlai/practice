@@ -48,6 +48,6 @@ class DataTool
     // 取得 array 內重複的 value
     public static function duplicatesInArray( array $haystack, bool $strict = false ) : array
     {
-        return array_unique(array_diff_assoc($haystack, array_unique($haystack, $strict)), $strict);
+        return array_unique( array_diff_assoc( $haystack, array_unique( $haystack, $strict ) ), $strict );
     }
 }
