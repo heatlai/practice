@@ -55,3 +55,31 @@ function pre_print_r($input)
     print_r($input);
     echo '</pre>';
 }
+
+function csvToArray( $filename, $delimiter = ',' )
+{
+    if ( ! file_exists($filename) || ! is_readable($filename) )
+    {
+        return false;
+    }
+
+    if ( $delimiter === ',' )
+    {
+        $csv = array_map('str_getcsv', file($filename));
+    } else
+    {
+        $lines = file($filename);
+        $line_num = count($lines);
+        $dm = []; // $delimiter
+
+        $csv = array_map('str_getcsv', $lines, array_pad($dm, $line_num, $delimiter));
+    }
+
+    array_walk($csv, function ( &$row ) use ( $csv ) {
+        $row = array_combine($csv[0], $row);
+    });
+
+    array_shift($csv); // 移掉第一行的標題陣列
+
+    return $csv;
+}
