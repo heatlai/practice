@@ -9,22 +9,24 @@
 $input = 7;
 
 # 可用的選項
-$options = array(1, 2, 4, 8);
+// $options = array(1, 2, 4, 8);
 
 # 檢查選擇了哪些選項
-foreach ($options as $option)
-{
-    # 二進位交集
-    $pick = $option & $input;
-
-    # $pick有值代表包含此選項 加到選擇清單內
-    if($pick) $chooses[] = $option;
-}
+// foreach ($options as $option)
+// {
+//     # 二進位交集
+//     $pick = $option & $input;
+//
+//     # $pick有值代表包含此選項 加到選擇清單內
+//     if($pick) $chooses[] = $option;
+// }
 
 /* or */
 # $input拆成十進位陣列 交集 可用的選項
 // $picks = splitBitsToDecimalArray($input);
 // $chooses = array_intersect($options, $picks);
+
+$chooses = getOptionAttribute($input);
 
 # 執行選擇
 foreach ($chooses as $value)
@@ -76,4 +78,32 @@ function splitBitsToDecimalArray($int)
     }
 
     return $result;
+}
+
+function getOptionAttribute(int $value)
+{
+    if( $value <= 0 )
+    {
+        return [];
+    }
+
+    $list = [];
+    $level = 0;
+
+    while ($value)
+    {
+        // 與 1 有交集時
+        if ($value & 1)
+        {
+            // 二進位往左移幾位 也可以說是 ( value 乘以 N次2 )
+            // 例如 ( 1 << 2 ) 代表二進位向左移兩位 等於 從 1 (二進位(0001)) 變成 4 (二進位( 0100 ))
+            $list[] = 1 << $level;
+        }
+
+        $level++;
+
+        // 二進位往右移一位 也可以說是 ( value 除以 N次2 )
+        $value >>= 1;
+    }
+    return $list;
 }
