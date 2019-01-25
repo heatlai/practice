@@ -83,3 +83,27 @@ function csvToArray( $filename, $delimiter = ',' )
 
     return $csv;
 }
+
+// 可讀取單column多行文字 & 清除UTF8-BOM
+function fgetcsvToArray( $filename, $delimiter = ',' )
+{
+    $res = array();
+
+    $removeBomUtf8 = function ( $s ) {
+        if ( substr($s, 0, 3) == chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF')) )
+        {
+            return substr($s, 3);
+        }
+        return $s;
+    };
+
+    if ( ($handle = fopen($filename, 'rb')) !== false )
+    {
+        while ( ($data = fgetcsv($handle, 1000, $delimiter)) !== false )
+        {
+            $res[] = array_map($removeBomUtf8, $data);
+        }
+        fclose($handle);
+    }
+    return $res;
+}
