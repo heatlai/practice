@@ -45,7 +45,8 @@ function getImageType($imageUrl)
         13 => 'SWC',
         14 => 'IFF',
         15 => 'WBMP',
-        16 => 'XBM'
+        16 => 'XBM',
+        17 => 'ICO',
     );
 
     if(!$imgInfo) return false;
