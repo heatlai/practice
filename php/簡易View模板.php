@@ -17,7 +17,7 @@ class View
         }
     }
 
-    public function forge(string $viewPath) : self
+    public static function forge(string $viewPath) : self
     {
         return new self($viewPath);
     }
