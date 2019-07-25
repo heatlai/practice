@@ -50,4 +50,10 @@ class DataTool
     {
         return array_unique( array_diff_assoc( $haystack, array_unique( $haystack, $strict ) ), $strict );
     }
+
+    // 取 array 內完全不重複的 value
+    public static function realUniqueInArray( array $haystack ) : array
+    {
+        return array_diff($haystack, array_diff_assoc($haystack, array_unique($haystack)));
+    }
 }
