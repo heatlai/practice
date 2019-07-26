@@ -56,4 +56,10 @@ class DataTool
     {
         return array_diff($haystack, array_diff_assoc($haystack, array_unique($haystack)));
     }
+
+    // 取 array 內第一個不重複的 value
+    public static function firstUniqueInArray(array $haystack)
+    {
+        return array_search(1, array_count_values($haystack), true);
+    }
 }
