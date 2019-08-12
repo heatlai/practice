@@ -90,6 +90,7 @@ function fgetcsvToArray( $filename, $delimiter = ',' )
     $res = array();
 
     $removeBomUtf8 = function ( $s ) {
+        // if ( substr($s, 0, 3) == pack("CCC",0xef,0xbb,0xbf) )
         if ( substr($s, 0, 3) == chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF')) )
         {
             return substr($s, 3);
