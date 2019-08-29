@@ -12,6 +12,7 @@ function buy_and_sell($arr) {
     $min = $arr[0];
     $max = $arr[0];
     $maxProfit = 0;
+    $buy = $arr[0];
     for ($i = 1; $i < $count; $i++)
     {
         $current = $arr[$i];
@@ -22,10 +23,11 @@ function buy_and_sell($arr) {
             $profit = $current - $min;
             if( $profit > $maxProfit )
             {
+                $buy = $min;
                 $max = $current;
                 $maxProfit = $profit;
             }
         }
     }
-    return ['buy' => $min, 'sell' => $max, 'profit' => $maxProfit];
+    return ['buy' => $buy, 'sell' => $max, 'profit' => $maxProfit];
 }
