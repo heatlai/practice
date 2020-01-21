@@ -33,8 +33,9 @@ class View
 
         \ob_start();
         include $this->_template;
-        $this->_content = \ob_get_contents();
-        \ob_end_clean();
+        // $this->_content = \ob_get_contents();
+        // \ob_end_clean();
+        $this->_content = ob_get_clean() ?: '';
 
         return $this->_content;
     }
