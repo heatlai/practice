@@ -9,7 +9,7 @@
 2. oh-my-zsh [Link](https://github.com/robbyrussell/oh-my-zsh)
 
 ## PHP
-(需破解)PhpStorm [Link](https://www.jetbrains.com/phpstorm/)
+PhpStorm [Link](https://www.jetbrains.com/phpstorm/)
 
 ## Python
 PyCharm [Link](https://www.jetbrains.com/pycharm/)
