@@ -14,7 +14,7 @@ originStr="https://google.com/?aa=123&bb=456"
 str=$(urlencode ${originStr})
 str2=$(urlencode_safe=':/='  urlencode ${originStr})
 
-echo ${str}
-echo ${str2}
+echo str : ${str}
+echo str2 : ${str2}
 
 echo $(urldecode ${str})
