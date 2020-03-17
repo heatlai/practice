@@ -108,3 +108,17 @@ function fgetcsvToArray( $filename, $delimiter = ',' )
     }
     return $res;
 }
+
+// 日文csv
+function readCsv_SJIS($file)
+{
+    $res = array();
+
+    $fp = fopen($file, 'r');
+    while ($line = fgetcsv($fp)) {
+        $res[] = mb_convert_encoding($line, 'utf-8', 'sjis-win');
+    }
+    fclose($fp);
+
+    return $res;
+}
