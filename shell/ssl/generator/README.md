@@ -1,6 +1,6 @@
 ### Use
 ```shell script
-chmod 755 ssl.sh check.sh verify.sh
+chmod +x ssl.sh check.sh verify.sh
 
 # generate cert & key
 ./ssl.sh example.com
