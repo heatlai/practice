@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# CentOS 應該可用
-# MacOS 不能用
-
 set -eu -o pipefail
 
 if [ ${#} -ne 2 ]; then
@@ -29,7 +26,15 @@ fi
 
 # check test signature
 openssl x509 -in "${1}" -noout -pubkey >"${TMP}/pubkey.pem"
-dd if=/dev/urandom of="${TMP}/rnd" bs=32 count=1 status=none
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # MacOS
+  dd if=/dev/urandom of="${TMP}/rnd" bs=32 count=1 &> /dev/null
+else
+  # Linux
+  dd if=/dev/urandom of="${TMP}/rnd" bs=32 count=1 status=none
+fi
+
 openssl rsautl -sign -pkcs -inkey "${2}" -in "${TMP}/rnd" -out "${TMP}/sig"
 openssl rsautl -verify -pkcs -pubin -inkey "${TMP}/pubkey.pem" -in "${TMP}/sig" -out "${TMP}/check"
 
