@@ -1,14 +1,16 @@
 ### Use
 ```shell script
-chmod 755 ssl.sh
-chmod 755 check.sh
-chmod 755 verify.sh
+chmod 755 ssl.sh check.sh verify.sh
 
+# generate cert & key
 ./ssl.sh example.com
+# show cert detail
 ./check.sh ./../example.com/server.crt
+# verify cert & key
+./verify.sh ./../example.com/server.crt ./../example.com/server.key
 ```
 
-### Mac Install
+### MacOS Dependency Installation
 ```shell script
 # realpath
 brew install coreutils
