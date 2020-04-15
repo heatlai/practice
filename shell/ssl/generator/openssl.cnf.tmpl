@@ -12,7 +12,13 @@ L = Taipei
 O = Example Ltd.
 OU = Web self-signed
 emailAddress = self-signed@example.com
-CN = localhost
+CN = ${DOMAIN}
+
+[v3_ca]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always, issuer:always
+basicConstraints = CA:true
+keyUsage = critical, cRLSign, digitalSignature, keyCertSign
 
 [v3_req]
 authorityKeyIdentifier = keyid,issuer
@@ -21,7 +27,5 @@ keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
 subjectAltName = @alt_names
 
 [alt_names]
-DNS.1 = *.localhost
-DNS.2 = 127.0.0.1
-DNS.3 = *.internal
-DNS.4 = *.${DOMAIN}
+DNS.1 = ${DOMAIN}
+DNS.2 = *.${DOMAIN}

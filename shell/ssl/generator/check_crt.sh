@@ -10,11 +10,15 @@ if [ ! -e "${CERT_PATH}" ]; then
   exit 1
 fi
 
+declare -a PARAMS=( "${@}" )
+if [[ " ${PARAMS[*]} " =~ " -a " ]]; then
+    openssl x509 -noout -text -in "${CERT_PATH}"
+    exit 0
+fi
+
 openssl x509 -noout -in "${CERT_PATH}" \
   -issuer \
   -subject \
   -dates \
   -fingerprint
 openssl x509 -noout -in "${CERT_PATH}" -text | grep "DNS:" | sed -e 's/^[[:space:]]*//'
-
-#openssl x509 -noout -in "${CERT_PATH}" -text
