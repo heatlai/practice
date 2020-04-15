@@ -2,7 +2,7 @@
 
 ### Dev Domain CRT
 
-BASEDIR=`dirname $0`
+BASEDIR=$(dirname $0)
 CA_KEY="${BASEDIR}/ca/rootCA.key"
 CA_CRT="${BASEDIR}/ca/rootCA.crt"
 CA_SRL="${BASEDIR}/ca/rootCA.srl"

@@ -2,7 +2,7 @@
 
 ### ROOT CA
 
-BASEDIR=`dirname $0`
+BASEDIR=$(dirname $0)
 KEY="${BASEDIR}/ca/rootCA.key"
 CRT="${BASEDIR}/ca/rootCA.crt"
 
