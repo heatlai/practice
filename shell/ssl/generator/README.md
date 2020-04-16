@@ -48,7 +48,8 @@ ls ./ca
 ```
 
 ### SSL for dev
-加自己的 domain 到 alt_names 下面
+加自己的 domain 到 `domains` 檔案裡面  
+**注意：要保留最後一行是空白行**
 ```shell script
 ./ssl_ca.sh
 ls ./selfsigned
