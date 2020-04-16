@@ -10,6 +10,11 @@ KEY="${BASEDIR}/selfsigned/selfsigned.key"
 CSR="${BASEDIR}/selfsigned/selfsigned.csr"
 CRT="${BASEDIR}/selfsigned/selfsigned.crt"
 
+### read domain file
+DNS=$(declare -i i=3; while IFS= read -r line; do
+  echo "DNS.$((i+=1)) = ${line}"
+done < "${BASEDIR}/domains")
+
 CRT_CONFIG="
 [req]
 prompt = no
@@ -35,6 +40,7 @@ IP.1 = 127.0.0.1
 DNS.1 = localhost
 DNS.2 = self-signed.dev
 DNS.3 = *.self-signed.dev
+${DNS}
 "
 
 #### key
