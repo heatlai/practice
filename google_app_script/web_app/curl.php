@@ -4,7 +4,7 @@
  * Google App Script API curl example
  */
 
-define('GOOGLE_APP_SCRIPT_API', 'https://script.google.com/macros/s/AKfycbz9yoL1Lqdx9K65NsnGToPxmyNCX8xTrUl8Un_N4aqsS0hLliMl/exec');
+define('GOOGLE_APP_SCRIPT_API', 'https://script.google.com/macros/s/12345678/exec');
 
 $param = array('name' => 'SuperSaiyan', 'location' => 'earth', 'status' => 'gg3be0');
 
@@ -20,7 +20,7 @@ function get(array $queryParams) {
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 30,
-        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_FOLLOWLOCATION => true, // 這個一定要
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     ));
 
@@ -47,7 +47,7 @@ function post(array $postData) {
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 30,
-        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_FOLLOWLOCATION => true, // 這個一定要
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_POSTFIELDS => $postData,
     ));
