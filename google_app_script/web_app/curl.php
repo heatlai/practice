@@ -31,9 +31,9 @@ function get(array $queryParams) {
     $decoded = json_decode($response, true);
     if( json_last_error() === JSON_ERROR_NONE ) {
         return $decoded;
-    } else {
-        throw new \RuntimeException(json_last_error_msg());
     }
+
+    throw new \RuntimeException(json_last_error_msg());
 
     // >= 7.3.0 throw JsonException
     // return json_decode($response, true, 512,JSON_THROW_ON_ERROR);
@@ -59,9 +59,9 @@ function post(array $postData) {
     $decoded = json_decode($response, true);
     if( json_last_error() === JSON_ERROR_NONE ) {
         return $decoded;
-    } else {
-        throw new \RuntimeException(json_last_error_msg());
     }
+
+    throw new \RuntimeException(json_last_error_msg());
 
     // >= 7.3.0 throw JsonException
     // return json_decode($response, true, 512,JSON_THROW_ON_ERROR);
