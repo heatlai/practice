@@ -4,7 +4,7 @@ const GAS_POST_SIGN_SALT = 'MTUyNTMxOTliNDdkNDQ3Ng==';
 /**
  * @return boolean
  */
-function checkSign(param) {
+function checkToken(param) {
     if (!param._token) {
         return false;
     }

@@ -13,26 +13,27 @@ function doPost(e) {
         code: 0,
     };
 
-    // check Sign
-    if( ! checkSign(param) ) {
+    // check token
+    if( ! checkToken(param) ) {
         res.code = 1;
         res.status = false;
         return jsonResponse(res);
     }
 
-    // find date or fail
+    // find date row or fail
     var date = param.datetime;
     var findedRow = getRowByDate(date);
-    if( findedRow == -1 ) {
+    if( findedRow === -1 ) {
         res.code = 2;
         res.status = false;
         return jsonResponse(res);
     }
 
-    // update, getRange 的 index 是從 1 開始算
+    // update values
     var sheet = getSheetById(SHEET_GID);
-    // var rowRange = sheet.getRange(findedRow, 1, 1, 6);
+    // get findedRow's col C:F
     // getRange(取第幾個row, 從C欄開始, 總共拿 1 行, 總共拿 4 欄)
+    // getRange 的 index 是從 1 開始算
     var valueRange = sheet.getRange(findedRow, 3, 1, 4);
     var values = [
         param.all_registered,
@@ -40,18 +41,9 @@ function doPost(e) {
         param.yesterday_login,
         param.yesterday_oubo
     ];
+
     valueRange.setValues([values]);
-    // rowRange.setBackground('yellow');
-
-    // insert
-    // sheet.getRange(sheet.getLastRow()+1, 1, 1, values.length)
-    //     .setValues([values]);
-
-    // 前一天 color
-    // var prevRangeAtoB = sheet.getRange(findedRow-1, 1, 1, 2);
-    // var prevRangeCtoF = sheet.getRange(findedRow-1, 3, 1, 4);
-    // prevRangeAtoB.setBackground('#f1f1f1'); // grey
-    // prevRangeCtoF.setBackground(null); // no color
+    // valueRange.setBackground('yellow');
 
     return jsonResponse(res);
 }
@@ -67,27 +59,34 @@ function jsonResponse(data) {
 function getRowByDate(date) {
     var sheet = getSheetById(SHEET_GID);
 
-    // getValues() 日期會被轉換成 DateFormat, example: "Wed Apr 22 2020 00:00:00 GMT+0800 (台北標準時間)"
+    // getValues() if the cell is DateFormat, will get a Date object
     var rangeA4toEnd = sheet.getRange("A4:A"+sheet.getLastRow()).getValues();
 
+    // find date matches index
     // 注意 new Date() 會用本地時區，一定要設定好時區
     var searchDate = Utilities.formatDate(new Date(date), "Asia/Tokyo", "YYYY/MM/dd");
-    // 搜尋 string matches index
-    var findedRow = rangeA4toEnd.findIndex(searchDate);
+    var findedRow = rangeA4toEnd.findDateIndex(searchDate);
 
-    return ( findedRow == -1 ) ? findedRow : findedRow + 4;
+    // 因為上面 getRange 是從 A4 開始
+    // 所以 rowIndex 要 +4 才是真正 sheet 的 rowIndex
+    return ( findedRow === -1 ) ? findedRow : findedRow + 4;
 }
 
 /**
- * 日期欄位
+ * 日期欄位搜尋
  * @return int
  */
-Array.prototype.findIndex = function(search){
-    if(search == "") return false;
+Array.prototype.findDateIndex = function(searchDate){
+    if(searchDate == "") return false;
     for (var i = 0; i < this.length; i++) {
         try {
-            var date = Utilities.formatDate(new Date(this[i]), "Asia/Tokyo", "YYYY/MM/dd");
-            if (date == search) return i;
+            // skip not Date
+            if( !(this[i][0] instanceof Date) ) continue;
+
+            var date = Utilities.formatDate(this[i][0], "Asia/Tokyo", "YYYY/MM/dd");
+            if (date == searchDate) {
+                return i;
+            }
         } catch (e) {}
     }
     return -1;
@@ -96,7 +95,7 @@ Array.prototype.findIndex = function(search){
 /**
  * @return boolean
  */
-function auth(arr) {
+function checkToken(arr) {
     if(!arr._token) return false;
     const time = parseInt('0x' + arr._token.substr(-8));
     const token = arr._token.substring(0, arr._token.length - 8);

@@ -5,7 +5,7 @@
 Array.prototype.findIndex = function(search){
     if(search == "") return false;
     for (var i = 0; i < this.length; i++) {
-        if (this[i] == search) return i;
+        if (this[i] === search) return i;
     }
     return -1;
 };
@@ -14,12 +14,13 @@ Array.prototype.findIndex = function(search){
  * 日期欄位
  * @return int
  */
-Array.prototype.findIndex = function(search){
+Array.prototype.findDateIndex = function(search){
     if(search == "") return false;
     for (var i = 0; i < this.length; i++) {
         try {
-            var date = Utilities.formatDate(new Date(this[i]), "Asia/Tokyo", "YYYY/MM/dd");
-            if (date == search) return i;
+            if( !(this[i][0] instanceof Date) ) continue;
+            var date = Utilities.formatDate(this[i][0], "Asia/Tokyo", "YYYY/MM/dd");
+            if (date === search) return i;
         } catch (e) {}
     }
     return -1;
