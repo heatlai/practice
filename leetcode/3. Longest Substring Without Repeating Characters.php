@@ -77,11 +77,12 @@ class Solution2 {
             // 如果 $char 是重複的，而且 $char 的 起始index >= $start_index
             if (isset($dict[$char]) && $dict[$char] >= $start_index)
             {
+                // 目前 index 減去 $char 最後一次出現的 index
                 $count = $i - $dict[$char];
                 if ($count > $max) $max = $count;
                 // 從 $char 的 起始index 的下一個開始算
                 // example : 'abca',
-                // 遇到第二個 'a' 就是取第一個'a'的index '0'的下一個，也就是 'b' 開始算
+                // 遇到第二個 'a' 就是取第一個'a'的index(0)的下一個，也就是 'b'(1) 開始算
                 $start_index = $dict[$char] + 1;
             }
             else
@@ -89,6 +90,7 @@ class Solution2 {
                 $count = ($i + 1) - $start_index;
                 if ($count > $max) $max = $count;
             }
+            // 每個字都更新最後一次出現的 index
             $dict[$char] = $i;
         }
 
