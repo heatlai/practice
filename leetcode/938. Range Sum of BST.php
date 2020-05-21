@@ -53,6 +53,33 @@ Class Solution2{
     }
 }
 
+class Solution3
+{
+    /**
+     * @param  TreeNode  $root
+     * @param  Integer  $L
+     * @param  Integer  $R
+     * @return Integer
+     */
+    function rangeSumBST($root, $L, $R)
+    {
+        $res = 0;
+        // root 在範圍內加上 root 本身值
+        if ($L <= $root->val && $root->val <= $R) {
+            $res += $root->val;
+        }
+        // root 有在左範圍內 往左找
+        if ($root->left && $root->val > $L) {
+            $res += $this->rangeSumBST($root->left, $L, $R);
+        }
+        // root 有在右範圍內 往右找
+        if ($root->right && $root->val < $R) {
+            $res += $this->rangeSumBST($root->right, $L, $R);
+        }
+        return $res;
+    }
+}
+
 class TreeNode
 {
     public $val = null;

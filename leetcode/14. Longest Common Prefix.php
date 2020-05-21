@@ -8,10 +8,22 @@ class Solution
      */
     function longestCommonPrefix($strs)
     {
+        $strs_len = count($strs);
+
+        // 0 element
+        if ($strs_len === 0) {
+            return '';
+        }
+
+        // 1 element
+        if ($strs_len === 1) {
+            return $strs[0];
+        }
+
+        // least 2 elements
+        $res = '';
         $first = $strs[0];
         $len = strlen($first);
-        $strs_len = count($strs);
-        $res = '';
         for ($i = 0; $i < $len; ++$i) {
             $char = $first[$i];
             for ($j = 1; $j < $strs_len; ++$j) {

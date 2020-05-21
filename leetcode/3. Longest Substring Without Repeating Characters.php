@@ -1,62 +1,6 @@
 <?php
 
-class Solution
-{
-    /**
-     * @param  String  $s
-     * @return Integer
-     */
-    function lengthOfLongestSubstring($s)
-    {
-        $max = 0;
-        $current = '';
-        $len = 0;
-        $s_length = strlen($s);
-        for ($i = 0; $i < $s_length; $i++) {
-            if (strpos($current, $s[$i]) !== false) {
-                $current = substr($current, strpos($current, $s[$i]) + 1);
-                $len = strlen($current);
-            }
-            $current .= $s[$i];
-            $len++;
-            $max = max($max, $len);
-        }
-
-        return $max;
-    }
-}
-
-class Solution1
-{
-
-    /**
-     * @param  String  $s
-     * @return Integer
-     */
-    function lengthOfLongestSubstring($s)
-    {
-        $source = str_split($s);
-        $length = strlen($s);
-        $tmp = [];
-        $max = 0;
-        for ($i = 0; $i < $length; $i++) {
-            $char = $source[$i];
-            if (in_array($char, $tmp, true)) {
-                $search = array_search($char, $tmp, true);
-                $tmp = array_slice($tmp, $search + 1);
-            }
-            $tmp[] = $char;
-            $current = count($tmp);
-            if ($current > $max) {
-                $max = $current;
-            }
-        }
-
-        return $max;
-    }
-}
-
-class Solution2 {
+class Solution {
 
     /**
      * @param String $s
@@ -98,6 +42,62 @@ class Solution2 {
     }
 }
 
+class Solution2
+{
+    /**
+     * @param  String  $s
+     * @return Integer
+     */
+    function lengthOfLongestSubstring($s)
+    {
+        $max = 0;
+        $current = '';
+        $len = 0;
+        $s_length = strlen($s);
+        for ($i = 0; $i < $s_length; $i++) {
+            if (strpos($current, $s[$i]) !== false) {
+                $current = substr($current, strpos($current, $s[$i]) + 1);
+                $len = strlen($current);
+            }
+            $current .= $s[$i];
+            $len++;
+            $max = max($max, $len);
+        }
+
+        return $max;
+    }
+}
+
+class Solution3
+{
+
+    /**
+     * @param  String  $s
+     * @return Integer
+     */
+    function lengthOfLongestSubstring($s)
+    {
+        $source = str_split($s);
+        $length = strlen($s);
+        $tmp = [];
+        $max = 0;
+        for ($i = 0; $i < $length; $i++) {
+            $char = $source[$i];
+            if (in_array($char, $tmp, true)) {
+                $search = array_search($char, $tmp, true);
+                $tmp = array_slice($tmp, $search + 1);
+            }
+            $tmp[] = $char;
+            $current = count($tmp);
+            if ($current > $max) {
+                $max = $current;
+            }
+        }
+
+        return $max;
+    }
+}
+
 $tests = [
     ["aab", 2],
     ["abcabcbb", 3],
@@ -109,7 +109,7 @@ $tests = [
 ];
 
 foreach ($tests as $arr) {
-    $a = (new Solution2())->lengthOfLongestSubstring($arr[0]);
+    $a = (new Solution())->lengthOfLongestSubstring($arr[0]);
     echo $arr[0].':'.$arr[1].':'.$a.' => ';
     echo ($a === $arr[1]) ? 'ok' : '不一樣捏';
     echo PHP_EOL;
