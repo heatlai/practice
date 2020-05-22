@@ -8,8 +8,7 @@ class Solution {
      */
     function findDuplicate($nums)
     {
-        $nums = array_diff_assoc($nums, array_unique($nums));
-        return reset($nums);
+        return current(array_diff_assoc($nums, array_unique($nums)));
     }
 }
 
