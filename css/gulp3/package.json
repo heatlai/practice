@@ -1,0 +1,23 @@
+{
+  "name": "sass-system",
+  "engines" : { "node" : "^10.0.0" },
+  "browserslist": [
+    "last 2 version",
+    "> 5%",
+    "Android 4.4.3",
+    "ios_saf 11.0-11.4"
+  ],
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "autoprefixer": "^9.6.1",
+    "cssbeautify": "^0.3.1",
+    "gulp-cached": "^1.1.1",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-cssbeautify": "^1.0.0",
+    "gulp-notify": "^3.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-postcss": "^8.0.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sass-glob": "^1.0.9"
+  }
+}
