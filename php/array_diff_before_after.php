@@ -77,4 +77,4 @@ function config_diff(array $before, array $after)
 }
 
 echo '<pre>';
-echo json_encode(config_diff($a, $b), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
+echo json_encode(config_diff($a, $b), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
