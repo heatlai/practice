@@ -39,7 +39,7 @@ keyUsage = critical, digitalSignature, cRLSign, keyCertSign
 "
 if [ ! -e "${CRT}" ]; then
   openssl req -new -sha256 -nodes -x509 \
-  -days 35600 \
+  -days 36500 \
   -config <(echo "${CA_CONFIG}") \
   -key "${KEY}" \
   -out "${CRT}"
