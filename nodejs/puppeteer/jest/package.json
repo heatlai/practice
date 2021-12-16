@@ -12,6 +12,7 @@
         "dotenv": "^8.2.0",
         "jest": "^25.1.0",
         "jest-jenkins-reporter": "^1.0.2",
+        "module-alias": "^2.2.2",
         "puppeteer": "^2.1.1"
     },
     "jest": {
@@ -20,10 +21,12 @@
         ],
         "testResultsProcessor": "jest-jenkins-reporter",
         "moduleNameMapper": {
-            "mylib/(.*)": "<rootDir>/lib/$1"
+            "@/(.*)": "<rootDir>/$1",
+            "@lib/(.*)": "<rootDir>/lib/$1"
         }
     },
     "_moduleAliases": {
-        "mylib": "lib"
+        "@": ".",
+        "@lib": "lib"
     }
 }

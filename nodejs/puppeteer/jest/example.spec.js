@@ -1,4 +1,5 @@
-const app = require('mylib/app');
+// require('module-alias/register')
+const app = require('@/app');
 const puppeteer = require('puppeteer');
 jest.setTimeout(120000); // 延長執行時間
 
