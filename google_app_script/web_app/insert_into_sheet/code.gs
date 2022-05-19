@@ -30,7 +30,7 @@ function doPost(e) {
     }
 
     // update values
-    var sheet = getSheetById(SHEET_GID);
+    var sheet = getSheetByGid(SHEET_GID);
     // get findedRow's col C:F
     // getRange(取第幾個row, 從C欄開始, 總共拿 1 行, 總共拿 4 欄)
     // getRange 的 index 是從 1 開始算
@@ -57,7 +57,7 @@ function jsonResponse(data) {
  * @return int
  */
 function getRowByDate(date) {
-    var sheet = getSheetById(SHEET_GID);
+    var sheet = getSheetByGid(SHEET_GID);
 
     // getValues() if the cell is DateFormat, will get a Date object
     var rangeA4toEnd = sheet.getRange("A4:A"+sheet.getLastRow()).getValues();
@@ -114,9 +114,51 @@ function checkToken(arr) {
 /**
  * @return Sheet
  */
-function getSheetById(id) {
+function getSheetByGid(id) {
     var ss = SpreadsheetApp.openByUrl(SHEET_URL);
     return ss.getSheets().filter(
         function(s) {return s.getSheetId() === id;}
     )[0];
+}
+
+/**
+ * @param {string} search
+ * @returns {number}
+ */
+Array.prototype.findIndex = function(search) {
+    if(search === '') return -1;
+    for (let i = 0; i < this.length; i++) {
+        if (this[i] == search) return i;
+    }
+    return -1;
+};
+
+/**
+ * upsert pseudo code
+ * @param {string} search
+ * @param {Array} values
+ */
+function upsert(search, values) {
+    let sheet = getSheetByGid(SHEET_GID);
+
+    // 用 getDisplayValues() 抓 A 欄全部 value
+    // 不要用 getValues() 因為日期會被轉換成 DateFormat, example: "Wed Apr 22 2020 00:00:00 GMT+0800 (台北標準時間)"
+    let rows = sheet.getRange(`A1:A${sheet.getLastRow()}`).getDisplayValues();
+    console.log(rows);
+
+    // 搜尋 string matches index
+    let found = rows.findIndex(search);
+    console.log(indexFound);
+
+    if( found === -1 ) {
+        // insert
+        // 前面多寫日期跟跳過一個欄位
+        let insert = [search,,].concat(values);
+        console.log(insert);
+        sheet.getRange(sheet.getLastRow() + 1, 1, 1, insert.length).setValues([insert]);
+    } else {
+        // update
+        // getRange 的 index 是從 1 開始算, 所以 found 要 +1
+        sheet.getRange(found + 1, 3, 1, 4).setValues([values]);
+    }
 }
