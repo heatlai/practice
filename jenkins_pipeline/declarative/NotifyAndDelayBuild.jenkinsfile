@@ -1,0 +1,60 @@
+@Library('utils') _
+
+pipeline {
+    agent any
+    tools {nodejs "latest"}
+    parameters {
+        choice(name: 'INPUT_JOB_NAME',
+            choices: ['e2e', 'HeatTest'],
+            description: '建置名稱')
+        choice(name: 'INPUT_JOB_DELAY',
+            choices: ['600', '300'],
+            description: '延遲秒數\n600sec(10分鐘)\n300sec(5分鐘)')
+        string(name: 'INPUT_CASE_NUMBER',
+            defaultValue: '',
+            description: '案件編號')
+        booleanParam(name: 'RefreshParameters',
+            defaultValue: false,
+            description: '重新讀取 pipeline 的 parameters 設定後立即中止')
+    }
+    stages {
+        stage("Refresh Parameters") {
+            when {
+                expression { return params.RefreshParameters == true }
+            }
+            steps {
+                script {
+                    currentBuild.result = 'ABORTED'
+                    currentBuild.displayName = 'Refresh Parameters'
+                    error("Refresh Parameters.")
+                }
+            }
+        }
+        stage('Queue Job') {
+            steps {
+                script {
+                    build quietPeriod: params.INPUT_JOB_DELAY, wait: false, job: params.INPUT_JOB_NAME
+//                    println('Queue Job') // for testing
+                }
+            }
+        }
+        stage('Notify') {
+            steps {
+                script {
+                    Notify.caseATeamDelayStart(params.INPUT_JOB_NAME, params.INPUT_CASE_NUMBER)
+                }
+            }
+        }
+    }
+    post {
+        failure {
+            script {
+                sendToRobotRoom(
+                    title: "Jenkins 系統通知",
+                    result: '❗❌FAIL:^)',
+                    to: Notify.toExecutorChatUser(),
+                );
+            }
+        }
+    }
+}

@@ -1,0 +1,94 @@
+@Library('utils') _
+
+pipeline {
+    agent any
+    parameters {
+        string(name: 'SAMPLE_STRING', defaultValue: 'Mr Jenkins', description: '字串')
+
+        text(name: 'SAMPLE_TEXT', defaultValue: '', description: '多行文字')
+
+        booleanParam(name: 'SAMPLE_BOOLEAN', defaultValue: true, description: '布林(勾選)')
+
+        choice(name: 'SAMPLE_CHOICE', choices: ['One', 'Two', 'Three'], description: '單選')
+
+        extendedChoice(
+            name: 'SAMPLE_MULTI_CHECKBOX',
+            description: '多勾選',
+            multiSelectDelimiter: ',',
+            quoteValue: false,
+            saveJSONParameterToFile: false,
+            type: 'PT_CHECKBOX',
+            value:'One,Two,Three,Four,Five,Six,Seven,Eight,Nine,Ten',
+            visibleItemCount: 10,
+            defaultValue: 'One,Three,Five'
+        )
+
+        extendedChoice(
+            name: 'SAMPLE_MULTI_SELECT',
+            description: '多選擇',
+            multiSelectDelimiter: ',',
+            quoteValue: false,
+            saveJSONParameterToFile: false,
+            type: 'PT_MULTI_SELECT',
+            value:'One,Two,Three,Four,Five,Six,Seven,Eight,Nine,Ten',
+            visibleItemCount: 10,
+            defaultValue: 'Two,Four,Six'
+        )
+
+        booleanParam(
+            name: 'RefreshParameters',
+            defaultValue: false,
+            description: '重新讀取 pipeline 的 parameters 設定後立即中止')
+    }
+    stages {
+        stage("Refresh Parameters") {
+            when {
+                expression { return params.RefreshParameters == true }
+            }
+            steps {
+                script {
+                    currentBuild.result = 'ABORTED'
+                    currentBuild.displayName = 'Refresh Parameters'
+                    error("Refresh Parameters.")
+                }
+            }
+        }
+        stage('Example') {
+            steps {
+                echo "String: ${params.SAMPLE_STRING}"
+
+                echo "Text: ${params.SAMPLE_TEXT}"
+
+                echo "Boolean: ${params.SAMPLE_BOOLEAN}"
+
+                echo "Choice: ${params.SAMPLE_CHOICE}"
+
+                echo "MULTI_CHECKBOX: ${params.SAMPLE_MULTI_CHECKBOX}"
+                echo "SAMPLE_MULTI_CHECKBOX instance of ${params.SAMPLE_MULTI_CHECKBOX.getClass()}"
+                script {
+                    String str = params.SAMPLE_MULTI_CHECKBOX.trim();
+                    List<String> list = str ? str.split(',') : [];
+                    echo "list instance of ${list.getClass()}"
+                    echo "list is empty ? ${list.isEmpty()}"
+                    list.eachWithIndex{ value, index ->
+                        println "value ${value} at index ${index} and intance of ${value.getClass()}"
+                    }
+                    println "list contains 'One' ${list.contains('One')}"
+                }
+
+                echo "MULTI_SELECT: ${params.SAMPLE_MULTI_SELECT}"
+                echo "SAMPLE_MULTI_SELECT instance of ${params.SAMPLE_MULTI_SELECT.getClass()}"
+                script {
+                    String str = params.SAMPLE_MULTI_SELECT.trim();
+                    List<String> list = str ? str.split(',') : [];
+                    echo "list instance of ${list.getClass()}"
+                    echo "list is empty ? ${list.isEmpty()}"
+                    list.eachWithIndex{ value, index ->
+                        println "value ${value} at index ${index} and intance of ${value.getClass()}"
+                    }
+                    println "list contains 'One' ${list.contains('One')}"
+                }
+            }
+        }
+    }
+}
